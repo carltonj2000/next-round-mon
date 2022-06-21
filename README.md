@@ -14,4 +14,6 @@ npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p # edit tailwind.config.js and global.css
 # setup vscode tailwindcss and ts support by following
 # https://dev.to/papaponmx/how-to-enable-tailwind-intellisense-on-tsx-files-230b
+yarn add @trpc/client @trpc/server @trpc/react @trpc/next zod react-query
+# move pages to src directory and modify tailwind.config.js
 ```
