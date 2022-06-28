@@ -41,12 +41,13 @@ const PokemonListing = ({
   pokemon,
   cb,
 }: {
-  pokemon: PokemonFromServer;
+  pokemon: PokemonFromServer | undefined;
   cb: (id: number) => void;
 }) => {
+  if (!pokemon) return null;
   return (
     <div className="w-64 h-64 flex flex-col items-center justify-center">
-      <img src={pokemon.sprites.front_default} className="w-full" />
+      <img src={pokemon.sprites.front_default || ""} className="w-full" />
       <div className="text-xl capitalize mt-[-2rem]">{pokemon.name}</div>
       <button onClick={() => cb(pokemon.id)} className={btn}>
         Rounder
