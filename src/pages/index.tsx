@@ -12,9 +12,14 @@ const Home: NextPage = () => {
   const [first, second] = ids;
   const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
+  const voteMutation = trpc.useMutation(["cast-vote"]);
 
   const voteForRoundest = (selected: number) => {
-    // todo: fire mutation to persist changes
+    if (selected === first) {
+      voteMutation.mutate({ votedFor: first, votedAgainst: second });
+    } else {
+      voteMutation.mutate({ votedFor: second, votedAgainst: first });
+    }
     idsSet(getOptionsForVote());
   };
 
