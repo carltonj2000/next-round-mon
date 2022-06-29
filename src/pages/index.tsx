@@ -13,8 +13,6 @@ const Home: NextPage = () => {
   const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
 
-  if (firstPokemon.isLoading || secondPokemon.isLoading) return null;
-
   const voteForRoundest = (selected: number) => {
     // todo: fire mutation to persist changes
     idsSet(getOptionsForVote());
@@ -25,9 +23,22 @@ const Home: NextPage = () => {
       <div className="text-2xl text-center">Which Pokemon is rounder?</div>
       <div className="p-2"></div>
       <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-        <PokemonListing pokemon={firstPokemon.data} cb={voteForRoundest} />
-        <div className="p-8">Vs</div>
-        <PokemonListing pokemon={secondPokemon.data} cb={voteForRoundest} />
+        {!firstPokemon.isLoading &&
+          !secondPokemon.isLoading &&
+          firstPokemon.data &&
+          secondPokemon.data && (
+            <>
+              <PokemonListing
+                pokemon={firstPokemon.data}
+                cb={voteForRoundest}
+              />
+              <div className="p-8">Vs</div>
+              <PokemonListing
+                pokemon={secondPokemon.data}
+                cb={voteForRoundest}
+              />
+            </>
+          )}
       </div>
     </div>
   );
@@ -41,13 +52,12 @@ const PokemonListing = ({
   pokemon,
   cb,
 }: {
-  pokemon: PokemonFromServer | undefined;
+  pokemon: PokemonFromServer;
   cb: (id: number) => void;
 }) => {
-  if (!pokemon) return null;
   return (
-    <div className="w-64 h-64 flex flex-col items-center justify-center">
-      <img src={pokemon.sprites.front_default || ""} className="w-full" />
+    <div className="flex flex-col items-center justify-center">
+      <img src={pokemon.sprites.front_default || ""} className="w-64 h-64" />
       <div className="text-xl capitalize mt-[-2rem]">{pokemon.name}</div>
       <button onClick={() => cb(pokemon.id)} className={btn}>
         Rounder

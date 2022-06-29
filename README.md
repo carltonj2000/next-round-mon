@@ -17,3 +17,14 @@ npx tailwindcss init -p # edit tailwind.config.js and global.css
 yarn add @trpc/client @trpc/server @trpc/react @trpc/next zod react-query
 # move pages to src directory and modify tailwind.config.js
 ```
+
+```bash
+npx prisma init
+sudo apt install ./pscale_0.102.0_linux_amd64.deb
+pscale auth login
+pscale connect roundest-mon main --port 3309
+pscale connect roundest-mon dev --port 3310
+# update .env with dbs
+npx prisma migrate dev
+npx prisma studio
+```
