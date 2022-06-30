@@ -70,7 +70,8 @@ const PokemonListing = ({
       <Image
         width={256}
         height={256}
-        src={pokemon.sprites.front_default || ""}
+        // src={pokemon.sprites.front_default || ""}
+        src={pokemon.spriteUrl || ""}
         className="w-64 h-64"
       />
       <div className="text-xl capitalize mt-[-2rem] py-2">{pokemon.name}</div>
