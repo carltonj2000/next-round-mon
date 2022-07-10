@@ -1,5 +1,9 @@
 # Pokemon Roundest App With NextJs, Typescript, Prisma
 
+Only local development due to requirement of planetScale
+requiring a pay plan for multiple db required here.
+One of dev and one for "shadow".
+
 ## Code History
 
 The code in this repository is based on the
