@@ -10,12 +10,12 @@ const PokemonListing: React.FC<{ pokemon: PokemonQueryResult[number] }> = ({
   pokemon,
 }) => {
   return (
-    <div className="flex flex-col w-32 items-center">
+    <div className="flex flex-col w-32 items-center border border-gray-900 border-opacity-30">
       <Image width={64} height={64} src={pokemon.spriteUrl || ""} />
-      <div className="flex flex-col">
-        <div className="flex justify-between">
-          <div>{pokemon._count.votesFor}+</div>
-          <div>-{pokemon._count.votesAgainst}</div>
+      <div className="flex flex-col w-full items-center">
+        <div className="flex justify-between w-full">
+          <div className="pl-2">{pokemon._count.votesFor}+</div>
+          <div className="pr-2">-{pokemon._count.votesAgainst}</div>
         </div>
         <div>{pokemon.name}</div>
       </div>
@@ -41,7 +41,10 @@ export default ResultsPage;
 
 const getPokemonOrdered = async () =>
   await prisma.pokemon.findMany({
-    orderBy: { votesFor: { _count: "desc" } },
+    orderBy: [
+      { votesFor: { _count: "desc" } },
+      { votesAgainst: { _count: "desc" } },
+    ],
     select: {
       id: true,
       name: true,
