@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { trpc } from "@/utils/trpc";
 import { getOptionsForVote } from "@/utils/getRandomPokemon";
 import { inferQueryResponse } from "./api/trpc/[trpc]";
@@ -25,30 +26,32 @@ const Home: NextPage = () => {
     idsSet(getOptionsForVote());
   };
 
+  const dataLoaded =
+    !firstPokemon.isLoading &&
+    !secondPokemon.isLoading &&
+    firstPokemon.data &&
+    secondPokemon.data;
+
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center">
+    <div className="h-screen w-screen flex flex-col justify-between items-center">
       <div className="text-2xl text-center">Which Pokemon is rounder?</div>
       <div className="p-2"></div>
-      <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-        {!firstPokemon.isLoading &&
-          !secondPokemon.isLoading &&
-          firstPokemon.data &&
-          secondPokemon.data && (
-            <>
-              <PokemonListing
-                pokemon={firstPokemon.data}
-                cb={voteForRoundest}
-              />
-              <div className="p-8">Vs</div>
-              <PokemonListing
-                pokemon={secondPokemon.data}
-                cb={voteForRoundest}
-              />
-            </>
-          )}
-      </div>
-      <div className="absolute bottom-0 w-full text-xl text-center">
+      {dataLoaded && (
+        <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
+          <PokemonListing pokemon={firstPokemon.data} cb={voteForRoundest} />
+          <div className="p-8">Vs</div>
+          <PokemonListing pokemon={secondPokemon.data} cb={voteForRoundest} />
+        </div>
+      )}
+      {!dataLoaded && <img src="/rings.svg" className="w-48" />}
+
+      <div className="w-full text-xl text-center flex items-center justify-center gap-10">
         <a href="https://github.com/carltonj2000/next-round-mon">GitHub</a>
+        <div className="text-2xl  text-green-300">
+          <Link href="/results">
+            <a>Results</a>
+          </Link>
+        </div>
       </div>
     </div>
   );

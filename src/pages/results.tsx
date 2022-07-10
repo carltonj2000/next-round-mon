@@ -43,6 +43,7 @@ const getPokemonOrdered = async () =>
   await prisma.pokemon.findMany({
     orderBy: [
       { votesFor: { _count: "desc" } },
+      { name: "asc" },
       { votesAgainst: { _count: "desc" } },
     ],
     select: {
